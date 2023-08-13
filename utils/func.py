@@ -9,16 +9,14 @@ from tabulate import tabulate
 import termcolor
 import os
         
-# disable logging for webdriver
+# Disable logging for webdriver
 os.environ['WDM_LOG_LEVEL'] = '0'
-
 
 from utils.dict_maker import IPODict
 
-# import Driver installer
-from webdriver_manager.chrome import ChromeDriverManager             # For Chrome
-# from webdriver_manager.microsoft import EdgeChromiumDriverManager  # For Edge
-# from webdriver_manager.firefox import GeckoDriverManager           # For Firefox
+# Specify the path to the ChromeDriver executable
+chrome_driver_path = '/usr/bin/chromedriver'  # Specify the actual path
+
 class web_driver():
     options = webdriver.ChromeOptions()
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
@@ -28,16 +26,13 @@ class web_driver():
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--window-size=1920x1080')
 
-    # add user agent
+    # Add user agent
     options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36')
     options.add_argument("--start-maximized")
 
-    # drivermanager automatically installs latest driver and set path to that driver
-    chrome_driver_path = ChromeDriverManager().install()        # call drivermanager according to browser you use
-
-    # function that calls and runs the webdriver
-    driver= webdriver.Chrome(chrome_driver_path, options=options)
-    wait = WebDriverWait(driver,30)
+    # Create the WebDriver instance using the specified path
+    driver = webdriver.Chrome(executable_path=chrome_driver_path, options=options)
+    wait = WebDriverWait(driver, 30)
 
 
 def login(dp,username,password):
