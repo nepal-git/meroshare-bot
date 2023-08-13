@@ -7,8 +7,13 @@ pip install -r requirements.txt
 # or
 python3 -m pip install -r requirements.txt
 ```
+### 2. Specify Path of installed chromedriver
 
-### 2. Edit the **demats.txt** file and add all the accounts' information each account separated by a line break and each information separated by comma ',' and no spaces.
+```/usr/bin/chromedriver
+```
+Replace this in /utils/func.py
+
+### 3. Edit the **demats.txt** file and add all the accounts' information each account separated by a line break and each information separated by comma ',' and no spaces.
 
 <br>
 
@@ -25,7 +30,7 @@ Note: Name provided in the demats.txt file is just for showing the progress in
       log and does not need to be the name used in the meroshare account.
 ```
 
-### 3. After adding the account info's, execute the following command from the parent directory.
+### 4. After adding the account info's, execute the following command from the parent directory.
 
 ```
 python ./main.py
