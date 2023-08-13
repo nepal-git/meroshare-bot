@@ -9,7 +9,8 @@ python3 -m pip install -r requirements.txt
 ```
 ### 2. Specify Path of installed chromedriver
 
-```/usr/bin/chromedriver
+```
+/usr/bin/chromedriver
 ```
 Replace this in /utils/func.py
 
