@@ -15,7 +15,7 @@ os.environ['WDM_LOG_LEVEL'] = '0'
 from utils.dict_maker import IPODict
 
 # Specify the path to the ChromeDriver executable
-chrome_driver_path = '/usr/bin/chromedriver'  # Specify the actual path
+chrome_driver_path = '/usr/local/bin/chromedriver'  # Specify the actual path
 
 class web_driver():
     options = webdriver.ChromeOptions()
@@ -124,7 +124,33 @@ def apply_ipo(kitta,crn,txn_pin):
     else:
         # If only one bank account is linked, choose the first one
         web_driver.driver.find_element(By.XPATH,"//*[@id='selectBank']/option[2]").click()
+        
+    acc_dropdown = Select(web_driver.driver.find_element(By.XPATH,"//*[@name='accountNumber']"))
+    acc_list = acc_dropdown.options
 
+    if len(acc_list) > 2:  # check if there are multiple bank accounts
+        # print empty line
+        print('\n')
+        termcolor.cprint("Multiple accounts detected. Please select a account to continue...",'red')
+
+        accs = []  # list bank accounts
+        index = 1
+        for acc in acc_list:
+            accs.append([index-1, acc.text])
+            index += 1
+
+        accs.pop(0)  # remove the first bank from the list
+        col_names = ["option", "Acc Name"]
+        termcolor.cprint(tabulate(accs, headers=col_names, tablefmt="grid"),'green')
+        selected_acc = int(input("Select the respective option to continue:"))
+        # Select the bank chosen by the User
+
+        web_driver.driver.find_element(By.XPATH,"//*[@id='accountNumber']/option[" + str(selected_acc-1) + "]").click()
+
+    else:
+        # If only one bank account is linked, choose the first one
+        web_driver.driver.find_element(By.XPATH,"//*[@id='accountNumber']/option[2]").click()
+            
     appliedKitta = web_driver.driver.find_element(By.NAME,"appliedKitta")
     appliedKitta.send_keys(kitta)
     web_driver.driver.implicitly_wait(5)
